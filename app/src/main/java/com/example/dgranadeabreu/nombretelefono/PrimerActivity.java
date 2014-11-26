@@ -83,6 +83,8 @@ public class PrimerActivity extends Activity {
                                 -------para recogerlo en la otra clase
                                 Bundle objeto=getiNtent.getExtras()
                                 */
+
+                                //COMENTARIO CIPOTE
                             }
                     }
                 if (bandera==false)
