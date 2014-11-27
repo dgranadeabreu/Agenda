@@ -1,69 +1,58 @@
 package com.example.dgranadeabreu.nombretelefono;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 
-public class SegundaActivity extends Activity {
-    EditText nombre2;
-    EditText telefono2;
-    Button botonListo;
-    Agenda objetoAgenda;
+
+public class SegundaActivity extends ListActivity{
+    ArrayList<Agenda> arrayNombres;
+    ListView lista;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_segunda);
-        nombre2=(EditText)findViewById(R.id.idNombre2);
-        telefono2=(EditText)findViewById(R.id.idTelefono2);
-        botonListo=(Button)findViewById(R.id.botonListo);
-        //para el primer editar
-        /*
-        nombre2.setText(getIntent().getExtras().getString("idNombre"));
-        telefono2.setText(getIntent().getExtras().getString("idTelefono"));
-        */
-        //para el segundo
-        objetoAgenda=(Agenda)getIntent().getSerializableExtra("datosArray");
-        nombre2.setText(objetoAgenda.getNombre());
-        telefono2.setText(objetoAgenda.getTelefono());
+        setContentView(R.layout.activity_actividad_lista);
 
-        botonListo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SegundaActivity.this,PrimerActivity.class);
-                /*
-                i.putExtra("nombre", nombre2.getText().toString());
-                i.putExtra("telefono", telefono2.getText().toString());
-                setResult(RESULT_OK, i);
-                */
-                objetoAgenda.setNombre(nombre2.getText().toString());
-                objetoAgenda.setTelefono(telefono2.getText().toString());
-                i.putExtra("datos", objetoAgenda);
-                startActivityForResult(i,1);
-                finish();
-            }
-        });
+        //lista=(ListView)findViewById(R.id.android_list);
+        arrayNombres= (ArrayList<Agenda>) getIntent().getSerializableExtra("datos");
+        setListAdapter(new ArrayAdapter<Agenda>(this, android.R.layout.simple_list_item_1, arrayNombres));
+    }
 
+    public void onListItemClick(ListView parent,View v,int position,long id)
+    {
+        final Intent intento=new Intent(SegundaActivity.this,TerceraActivity.class);
+        Toast.makeText(this, "Ha elegido --> " + arrayNombres.get(position).toString(), Toast.LENGTH_SHORT).show();
+        intento.putExtra("datosArray",arrayNombres.get(position));
+        startActivityForResult(intento, 1);
     }
     public void onActivityResult(int reqC,int resC,Intent data)
     {
+        //aqui entrara cuando le de al boton Listo de la tercera pantalla
+        Toast.makeText(this, "valores --> " + data.getSerializableExtra("datosDevueltos"), Toast.LENGTH_SHORT).show();
+        Agenda objAgenda=(Agenda)data.getSerializableExtra("datosDevueltos");
+        String antiguoNombre=data.getStringExtra("antiguoNombre");
 
-        Intent i=new Intent(SegundaActivity.this,PrimerActivity.class);
-        setResult(RESULT_OK,i);
+        Intent intento2=new Intent(SegundaActivity.this,PrimerActivity.class);
+
+        intento2.putExtra("datosDevueltos",objAgenda);
+        intento2.putExtra("antiguoNombre",antiguoNombre);
+        setResult(RESULT_OK,intento2);
+        finish();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_segunda, menu);
+        getMenuInflater().inflate(R.menu.menu_actividad_lista, menu);
         return true;
     }
 
@@ -81,16 +70,4 @@ public class SegundaActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    public void showToast(String mensaje)
-    {
-        Context contexto=getApplicationContext();
-        int duracion= Toast.LENGTH_SHORT;
-        Toast tostada=Toast.makeText(contexto,mensaje,duracion);
-        tostada.show();
-
-    }
-
-    }
-
+}

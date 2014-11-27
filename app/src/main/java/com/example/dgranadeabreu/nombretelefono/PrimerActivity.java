@@ -41,8 +41,8 @@ public class PrimerActivity extends Activity {
         //si nos devuelve datos la clase Segunda
 
         //llamar a la segunda clase
-        final Intent intento=new Intent(PrimerActivity.this,SegundaActivity.class);
-        final Intent intento2=new Intent(PrimerActivity.this,ActividadLista.class);
+        final Intent intento=new Intent(PrimerActivity.this,TerceraActivity.class);
+        final Intent intento2=new Intent(PrimerActivity.this,SegundaActivity.class);
 
         //meter nombre y telefono en el array
         btnAñadir.setOnClickListener(new View.OnClickListener()
@@ -138,14 +138,6 @@ public class PrimerActivity extends Activity {
 
     public void onActivityResult(int reqC,int resC,Intent data)
     {
-        if (reqC==1)//reqc es el valor que le pasamos al starActivytyForresult
-        {
-
-        }
-        if (resC==RESULT_OK)//es la constante que le pasamos
-        {
-
-        }
         /*para el editar antiguo
         String MiRespuesta=data.getExtras().getString("nombre");
         String MiRespuesta2=data.getExtras().getString("telefono");
@@ -165,8 +157,9 @@ public class PrimerActivity extends Activity {
                 }
                 contador++;
         */
-        Toast.makeText(this, "Entro aqui " , Toast.LENGTH_SHORT).show();
-        objAgenda=(Agenda)data.getSerializableExtra("datosArray");
+        Agenda objAgenda=(Agenda)data.getSerializableExtra("datosDevueltos");
+        String antiguoNombre=data.getStringExtra("antiguoNombre");
+        //Toast.makeText(this, objAgenda.getNombre().toString()+objAgenda.getTelefono().toString() , Toast.LENGTH_SHORT).show();
         //para el segundo
         int contador=0;
         boolean bandera2=false;
@@ -174,7 +167,7 @@ public class PrimerActivity extends Activity {
         for(Agenda a:arrayNombres) //por cada posicion del arraynombres ,buscamos en cada objeto agenda
         {
 
-            if (a.editar(objAgenda.getNombre()))
+            if (a.editar(antiguoNombre))
             {
                 arrayNombres.set(contador,new Agenda(objAgenda.getNombre(),objAgenda.getTelefono()));
                 bandera2=true;
