@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="EDITAR"
+            android:text="Esta de abajo es la parte antigua de editar, la dejo aqui para conservar el codigo, pero ya no se usa,se  usa la de arriba que es la nueva"
             android:id="@+id/idEtiquetaEditar" />
 
         <TextView
