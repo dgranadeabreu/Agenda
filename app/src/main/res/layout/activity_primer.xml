@@ -52,8 +52,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Seccion Borrar Usuarios,escribe debajo la persona que quieres borrar"
+            android:id="@+id/textoborrados" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text=""
             android:id="@+id/textView2" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textoAborrar" />
+
+        <Button
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="BorrarUsuario"
+            android:id="@+id/idbotonBorrar" />
 
         <TextView
             android:layout_width="wrap_content"

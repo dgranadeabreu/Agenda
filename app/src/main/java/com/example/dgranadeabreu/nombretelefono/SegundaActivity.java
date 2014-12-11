@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,16 +17,27 @@ import java.util.ArrayList;
 public class SegundaActivity extends ListActivity{
     ArrayList<Agenda> arrayNombres;
     ListView lista;
-
+    Button boton;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividad_lista);
-
+        boton=(Button)findViewById(R.id.botonVolverOpciones);
+        boton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                final Intent intento=new Intent(SegundaActivity.this,PrimerActivity.class);
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
         //lista=(ListView)findViewById(R.id.android_list);
         arrayNombres= (ArrayList<Agenda>) getIntent().getSerializableExtra("datos");
         setListAdapter(new ArrayAdapter<Agenda>(this, android.R.layout.simple_list_item_1, arrayNombres));
+
     }
 
     public void onListItemClick(ListView parent,View v,int position,long id)

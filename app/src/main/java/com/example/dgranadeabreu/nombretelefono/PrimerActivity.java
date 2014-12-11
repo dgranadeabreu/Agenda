@@ -18,10 +18,11 @@ public class PrimerActivity extends Activity {
     Button btnAñadir;
     Button btnEditar;
     Button btnListar;
+    Button btnBorrar;
     EditText textoNombre;
     EditText textoTelefono;
     EditText textoEditarNombre;
-
+    EditText textoAborrar;
     Agenda objAgenda;
 
     ArrayList<Agenda> arrayNombres=new ArrayList<Agenda>();
@@ -35,15 +36,18 @@ public class PrimerActivity extends Activity {
         btnAñadir=(Button)findViewById(R.id.idBotonAñadir);
         btnEditar=(Button)findViewById(R.id.idBotonEditar);
         btnListar=(Button)findViewById(R.id.idbotonListar);
+        btnBorrar=(Button)findViewById(R.id.idbotonBorrar);
         textoNombre=(EditText)findViewById(R.id.idNombre);
         textoTelefono=(EditText)findViewById(R.id.idTelefono);
         textoEditarNombre=(EditText)findViewById(R.id.idEditarNombre);
+        textoAborrar=(EditText)findViewById(R.id.textoAborrar);
+
         //si nos devuelve datos la clase Segunda
 
-        //llamar a la segunda clase
+        //llamar a los intents para llamar clases
         final Intent intento=new Intent(PrimerActivity.this,TerceraActivity.class);
         final Intent intento2=new Intent(PrimerActivity.this,SegundaActivity.class);
-
+        final Intent intento3=new Intent(PrimerActivity.this,ActividadBorrar.class);
         //meter nombre y telefono en el array
         btnAñadir.setOnClickListener(new View.OnClickListener()
         {
@@ -83,8 +87,6 @@ public class PrimerActivity extends Activity {
                                 -------para recogerlo en la otra clase
                                 Bundle objeto=getiNtent.getExtras()
                                 */
-
-                                //COMENTARIO CIPOTE
                             }
                     }
                 if (bandera==false)
@@ -94,6 +96,7 @@ public class PrimerActivity extends Activity {
             }
 
         });
+
         btnListar.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -102,6 +105,28 @@ public class PrimerActivity extends Activity {
                 intento2.putExtra("datos",arrayNombres);
                 startActivityForResult(intento2,1);
             }
+        });
+        btnBorrar.setOnClickListener(new View.OnClickListener()
+        {
+            int con=0;
+            @Override
+            public void onClick(View v)
+            {
+                for(Agenda a:arrayNombres) //por cada posicion del arraynombres ,buscamos en cada objeto agenda
+                {
+
+                    if (a.editar(textoAborrar.getText().toString().trim()))
+                    {
+                        intento3.putExtra("idNombre",a);
+                        showToast(a.getNombre()+a.getTelefono());
+                        arrayNombres.remove(con);
+                        startActivityForResult(intento3,5);
+                    }
+                    con++;
+                }
+
+            }
+
         });
 
     }
@@ -157,24 +182,30 @@ public class PrimerActivity extends Activity {
                 }
                 contador++;
         */
-        Agenda objAgenda=(Agenda)data.getSerializableExtra("datosDevueltos");
-        String antiguoNombre=data.getStringExtra("antiguoNombre");
-        //Toast.makeText(this, objAgenda.getNombre().toString()+objAgenda.getTelefono().toString() , Toast.LENGTH_SHORT).show();
-        //para el segundo
-        int contador=0;
-        boolean bandera2=false;
-
-        for(Agenda a:arrayNombres) //por cada posicion del arraynombres ,buscamos en cada objeto agenda
-        {
-
-            if (a.editar(antiguoNombre))
+            if (resC==RESULT_CANCELED)
             {
-                arrayNombres.set(contador,new Agenda(objAgenda.getNombre(),objAgenda.getTelefono()));
-                bandera2=true;
-                showToast("se ha modificado el usuario");
+                showToast("Bienvenido a la pagina principal");
             }
-            contador++;
-        }
+            else
+            {
+                Agenda objAgenda = (Agenda) data.getSerializableExtra("datosDevueltos");
+                String antiguoNombre = data.getStringExtra("antiguoNombre");
+
+                //para el segundo
+                int contador = 0;
+                boolean bandera2 = false;
+
+                for (Agenda a : arrayNombres) //por cada posicion del arraynombres ,buscamos en cada objeto agenda
+                {
+
+                    if (a.editar(antiguoNombre)) {
+                        arrayNombres.set(contador, new Agenda(objAgenda.getNombre(), objAgenda.getTelefono()));
+                        bandera2 = true;
+                        showToast("se ha modificado el usuario");
+                    }
+                    contador++;
+                }
+            }
 
     }
 }

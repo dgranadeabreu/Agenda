@@ -11,5 +11,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_actividad_lista">ActividadLista</string>
     <string name="listar">Listar</string>
+    <string name="title_activity_actividad_borrar">ActividadBorrar</string>
 
 </resources>
